@@ -134,25 +134,40 @@ function renderNotes() {
     return matchesCategory && noteMatchesSearch(note, query);
   });
 
-  notesGrid.innerHTML = filteredNotes
-    .map(
-      (note) => `
-        <article class="note-card">
-          <span class="tag ${categoryClass(note.category)}">${note.category}</span>
-          <h3>${note.title}</h3>
-          <p>${note.body}</p>
-          <div class="note-meta">
-            <span>${note.source}</span>
-            <span>${note.date}</span>
-          </div>
-        </article>
-      `,
-    )
-    .join("");
+  notesGrid.replaceChildren(...filteredNotes.map(createNoteCard));
 
   visibleCount.textContent = filteredNotes.length;
   totalNotesHero.textContent = notes.length;
   emptyState.hidden = filteredNotes.length > 0;
+}
+
+function createNoteCard(note) {
+  const card = document.createElement("article");
+  card.className = "note-card";
+
+  const tag = document.createElement("span");
+  tag.className = `tag ${categoryClass(note.category)}`;
+  tag.textContent = note.category;
+
+  const title = document.createElement("h3");
+  title.textContent = note.title;
+
+  const body = document.createElement("p");
+  body.textContent = note.body;
+
+  const meta = document.createElement("div");
+  meta.className = "note-meta";
+
+  const source = document.createElement("span");
+  source.textContent = note.source;
+
+  const date = document.createElement("span");
+  date.textContent = note.date;
+
+  meta.append(source, date);
+  card.append(tag, title, body, meta);
+
+  return card;
 }
 
 function setActiveCategory(category) {
