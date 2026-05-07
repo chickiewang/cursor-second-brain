@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Second Brain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav container" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Second Brain home">
+          <span class="brand-mark">SB</span>
+          <span>Second Brain</span>
+        </a>
+        <div class="nav-links">
+          <a href="#dashboard">Dashboard</a>
+          <a href="#capture">Capture</a>
+          <a class="button button-small" href="#capture">Add thought</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero container" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">A calm place for every idea</p>
+          <h1 id="hero-title">Collect notes, voice memos, deadlines, and sparks of genius.</h1>
+          <p class="hero-text">
+            Second Brain keeps your pasted notes, uploaded transcriptions, and random thoughts organized
+            into beautiful searchable cards.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#dashboard">Open dashboard</a>
+            <a class="button button-secondary" href="#capture">Capture an idea</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Example note preview">
+          <div class="floating-note">
+            <span class="tag tag-youtube">YouTube Ideas</span>
+            <h2>Video hook: packing for Kyoto</h2>
+            <p>
+              Start with the tiny travel journal shot, then reveal the full itinerary map on the desk.
+            </p>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <strong id="totalNotesHero">12</strong>
+              <span>saved notes</span>
+            </div>
+            <div>
+              <strong>5</strong>
+              <span>categories</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="dashboard container" id="dashboard" aria-labelledby="dashboard-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2 id="dashboard-title">Everything you are thinking about</h2>
+          </div>
+          <label class="search" for="searchInput">
+            <span>Search</span>
+            <input id="searchInput" type="search" placeholder="Search notes, tags, or content..." />
+          </label>
+        </div>
+
+        <div class="category-bar" aria-label="Filter notes by category">
+          <button class="category-filter active" data-category="All">All</button>
+          <button class="category-filter" data-category="YouTube Ideas">YouTube Ideas</button>
+          <button class="category-filter" data-category="School">School</button>
+          <button class="category-filter" data-category="Travel">Travel</button>
+          <button class="category-filter" data-category="Deadlines">Deadlines</button>
+          <button class="category-filter" data-category="Random Thoughts">Random Thoughts</button>
+        </div>
+
+        <div class="dashboard-grid">
+          <aside class="capture-panel" id="capture" aria-labelledby="capture-title">
+            <p class="eyebrow">Capture</p>
+            <h2 id="capture-title">Save a new thought</h2>
+            <form id="noteForm" class="note-form">
+              <label for="noteTitle">Title</label>
+              <input id="noteTitle" name="title" type="text" placeholder="Name this idea" required />
+
+              <label for="noteCategory">Category</label>
+              <select id="noteCategory" name="category" required>
+                <option>YouTube Ideas</option>
+                <option>School</option>
+                <option>Travel</option>
+                <option>Deadlines</option>
+                <option>Random Thoughts</option>
+              </select>
+
+              <label for="noteBody">Paste notes or random thoughts</label>
+              <textarea
+                id="noteBody"
+                name="body"
+                rows="6"
+                placeholder="Drop a note, transcript excerpt, deadline, or thought here..."
+                required
+              ></textarea>
+
+              <label class="file-drop" for="transcriptionUpload">
+                <span>Upload voice memo transcription</span>
+                <small>Choose a .txt file and its contents will be added to the note.</small>
+                <input id="transcriptionUpload" type="file" accept=".txt,text/plain" />
+              </label>
+
+              <button class="button" type="submit">Save to Second Brain</button>
+            </form>
+          </aside>
+
+          <section class="notes-section" aria-live="polite">
+            <div class="notes-toolbar">
+              <p><span id="visibleCount">0</span> notes shown</p>
+              <button id="clearFilters" class="text-button" type="button">Clear filters</button>
+            </div>
+            <div id="notesGrid" class="notes-grid"></div>
+            <p id="emptyState" class="empty-state" hidden>
+              No notes match that search yet. Try another keyword or add a new thought.
+            </p>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer container">
+      <p>Second Brain keeps the important things close, categorized, and easy to find.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
