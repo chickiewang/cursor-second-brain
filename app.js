@@ -115,8 +115,18 @@ const noteForm = document.querySelector("#noteForm");
 const uploadInput = document.querySelector("#transcriptionUpload");
 const noteBody = document.querySelector("#noteBody");
 const totalNotesHero = document.querySelector("#totalNotesHero");
+const voiceCapture = document.querySelector(".voice-capture");
+const voiceStatus = document.querySelector("#voiceStatus");
+const startVoice = document.querySelector("#startVoice");
+const stopVoice = document.querySelector("#stopVoice");
 
 let activeCategory = "All";
+let recognition;
+let isRecording = false;
+let speechStartText = "";
+let finalTranscript = "";
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 function categoryClass(category) {
   return `tag-${categories[category]}`;
@@ -189,6 +199,88 @@ clearFilters.addEventListener("click", () => {
   setActiveCategory("All");
 });
 
+function appendTranscript(interimTranscript = "") {
+  const baseText = speechStartText.trim();
+  const spokenText = `${finalTranscript} ${interimTranscript}`.trim();
+  noteBody.value = [baseText, spokenText].filter(Boolean).join(baseText && spokenText ? "\n\n" : "");
+}
+
+function setRecordingState(recording) {
+  isRecording = recording;
+  voiceCapture.classList.toggle("is-recording", recording);
+  startVoice.classList.toggle("is-recording", recording);
+  startVoice.disabled = recording || !recognition;
+  stopVoice.disabled = !recording;
+  startVoice.setAttribute("aria-label", recording ? "Voice recording in progress" : "Start voice recording");
+}
+
+function setupSpeechRecognition() {
+  if (!SpeechRecognition) {
+    startVoice.disabled = true;
+    stopVoice.disabled = true;
+    voiceStatus.textContent =
+      "Voice recognition is not supported in this browser. You can still paste notes or upload a transcription.";
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = "en-US";
+
+  recognition.addEventListener("start", () => {
+    setRecordingState(true);
+    voiceStatus.textContent = "Recording... speak naturally. Your words will appear in the note box.";
+  });
+
+  recognition.addEventListener("result", (event) => {
+    let interimTranscript = "";
+
+    for (let index = event.resultIndex; index < event.results.length; index += 1) {
+      const transcript = event.results[index][0].transcript;
+      if (event.results[index].isFinal) {
+        finalTranscript = `${finalTranscript} ${transcript}`.trim();
+      } else {
+        interimTranscript = `${interimTranscript} ${transcript}`.trim();
+      }
+    }
+
+    appendTranscript(interimTranscript);
+  });
+
+  recognition.addEventListener("error", (event) => {
+    const fallback = event.error === "not-allowed" ? " Microphone permission was blocked." : "";
+    voiceStatus.textContent = `Voice recognition stopped.${fallback}`;
+    setRecordingState(false);
+  });
+
+  recognition.addEventListener("end", () => {
+    setRecordingState(false);
+    voiceStatus.textContent = finalTranscript
+      ? "Transcription added. Tap the microphone to record more."
+      : "Recording stopped. Tap the microphone to try again.";
+  });
+}
+
+startVoice.addEventListener("click", () => {
+  if (!recognition || isRecording) return;
+
+  speechStartText = noteBody.value;
+  finalTranscript = "";
+
+  try {
+    recognition.start();
+  } catch (error) {
+    voiceStatus.textContent = "Voice recognition is already starting. Please try again in a moment.";
+  }
+});
+
+stopVoice.addEventListener("click", () => {
+  if (!recognition || !isRecording) return;
+  recognition.stop();
+  voiceStatus.textContent = "Stopping recording...";
+});
+
 uploadInput.addEventListener("change", async (event) => {
   const [file] = event.target.files;
   if (!file) return;
@@ -217,4 +309,5 @@ noteForm.addEventListener("submit", (event) => {
   renderNotes();
 });
 
+setupSpeechRecognition();
 renderNotes();

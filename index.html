@@ -109,6 +109,23 @@
                 required
               ></textarea>
 
+              <div class="voice-capture" aria-labelledby="voiceCaptureLabel">
+                <div>
+                  <span id="voiceCaptureLabel">Voice-to-text</span>
+                  <p id="voiceStatus" aria-live="polite">
+                    Tap the microphone and speak to transcribe directly into this note.
+                  </p>
+                </div>
+                <div class="voice-actions">
+                  <button id="startVoice" class="voice-button" type="button" aria-label="Start voice recording">
+                    <span aria-hidden="true">Mic</span>
+                  </button>
+                  <button id="stopVoice" class="text-button stop-button" type="button" disabled>
+                    Stop
+                  </button>
+                </div>
+              </div>
+
               <label class="file-drop" for="transcriptionUpload">
                 <span>Upload voice memo transcription</span>
                 <small>Choose a .txt file and its contents will be added to the note.</small>

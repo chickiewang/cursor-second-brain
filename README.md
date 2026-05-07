@@ -9,6 +9,7 @@ A minimal, dependency-free web app for collecting notes, voice memo transcriptio
 - Colored category tags for YouTube Ideas, School, Travel, Deadlines, and Random Thoughts
 - Note capture form for pasted notes and quick thoughts
 - Text upload support for voice memo transcriptions
+- Browser voice-to-text capture with recording and stop controls
 - Mobile-friendly responsive layout
 
 ## Run locally
