@@ -38,7 +38,6 @@ body {
 
 button,
 input,
-select,
 textarea {
   font: inherit;
 }
@@ -378,8 +377,6 @@ h1 {
   text-transform: uppercase;
 }
 
-.note-form input,
-.note-form select,
 .note-form textarea {
   background: var(--surface-strong);
   border: 1px solid var(--line);
@@ -395,14 +392,12 @@ h1 {
   resize: vertical;
 }
 
-.note-form input:focus,
-.note-form select:focus,
 .note-form textarea:focus {
   border-color: rgba(47, 95, 79, 0.75);
   box-shadow: 0 0 0 4px rgba(47, 95, 79, 0.12);
 }
 
-.category-suggestion,
+.auto-category,
 .voice-status,
 .voice-fallback {
   color: var(--muted);
@@ -411,7 +406,15 @@ h1 {
   margin: -4px 0 4px;
 }
 
-.category-suggestion strong {
+.auto-category {
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  justify-self: start;
+  padding: 9px 12px;
+}
+
+.auto-category strong {
   color: var(--accent);
 }
 

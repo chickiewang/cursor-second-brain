@@ -88,34 +88,22 @@
             <p class="eyebrow">Capture</p>
             <h2 id="capture-title">Save a new thought</h2>
             <form id="noteForm" class="note-form">
-              <label for="noteTitle">Title</label>
-              <input id="noteTitle" name="title" type="text" placeholder="Name this idea" required />
-
-              <label for="noteCategory">Category</label>
-              <select id="noteCategory" name="category" required>
-                <option>YouTube Ideas</option>
-                <option>School</option>
-                <option>Travel</option>
-                <option>Deadlines</option>
-                <option>Random Thoughts</option>
-              </select>
-              <p id="categorySuggestion" class="category-suggestion" aria-live="polite">
-                Suggested category: Random Thoughts
-              </p>
-
-              <label for="noteBody">Paste notes or random thoughts</label>
+              <label for="noteBody">Thought</label>
               <div class="thought-field">
                 <textarea
                   id="noteBody"
                   name="body"
                   rows="6"
-                  placeholder="Type a thought or tap the microphone to dictate..."
+                  placeholder="Tap here to type, or tap the microphone to dictate from your phone..."
                   required
                 ></textarea>
                 <button id="dictationButton" class="voice-button" type="button" aria-label="Start dictation">
                   <span aria-hidden="true">Mic</span>
                 </button>
               </div>
+              <p id="autoCategory" class="auto-category" aria-live="polite">
+                Auto category: <strong>Random Thoughts</strong>
+              </p>
               <p id="voiceStatus" class="voice-status" aria-live="polite">Tap to dictate</p>
               <p id="voiceFallback" class="voice-fallback" hidden>
                 Voice dictation is not supported in this browser. You can still type your thought.

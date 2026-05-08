@@ -112,8 +112,7 @@ const visibleCount = document.querySelector("#visibleCount");
 const emptyState = document.querySelector("#emptyState");
 const clearFilters = document.querySelector("#clearFilters");
 const noteForm = document.querySelector("#noteForm");
-const noteCategory = document.querySelector("#noteCategory");
-const categorySuggestion = document.querySelector("#categorySuggestion");
+const autoCategory = document.querySelector("#autoCategory");
 const noteBody = document.querySelector("#noteBody");
 const totalNotesHero = document.querySelector("#totalNotesHero");
 const voiceStatus = document.querySelector("#voiceStatus");
@@ -125,7 +124,7 @@ let recognition;
 let isListening = false;
 let speechStartText = "";
 let finalTranscript = "";
-let categoryWasManuallyChanged = false;
+let currentAutoCategory = "Random Thoughts";
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -279,19 +278,23 @@ function suggestCategory(content) {
   return bestMatch.score > 0 ? bestMatch.category : "Random Thoughts";
 }
 
-function showSuggestedCategory(category) {
+function showAutoCategory(category) {
   const categoryName = document.createElement("strong");
   categoryName.textContent = category;
-  categorySuggestion.replaceChildren("Suggested category: ", categoryName);
+  autoCategory.replaceChildren("Auto category: ", categoryName);
 }
 
-function updateSuggestedCategory() {
-  const suggestedCategory = suggestCategory(`${noteBody.value} ${document.querySelector("#noteTitle").value}`);
-  showSuggestedCategory(suggestedCategory);
+function updateAutoCategory() {
+  currentAutoCategory = suggestCategory(noteBody.value);
+  showAutoCategory(currentAutoCategory);
+}
 
-  if (!categoryWasManuallyChanged) {
-    noteCategory.value = suggestedCategory;
-  }
+function createTitleFromThought(thought) {
+  const normalizedThought = thought.replace(/\s+/g, " ").trim();
+  if (!normalizedThought) return "Untitled thought";
+
+  const words = normalizedThought.split(" ").slice(0, 7).join(" ");
+  return normalizedThought.length > words.length ? `${words}...` : words;
 }
 
 function appendTranscript(interimTranscript = "") {
@@ -369,29 +372,23 @@ dictationButton.addEventListener("click", () => {
   }
 });
 
-noteBody.addEventListener("input", updateSuggestedCategory);
-
-document.querySelector("#noteTitle").addEventListener("input", updateSuggestedCategory);
-
-noteCategory.addEventListener("change", () => {
-  categoryWasManuallyChanged = true;
-});
+noteBody.addEventListener("input", updateAutoCategory);
 
 noteForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const formData = new FormData(noteForm);
+  const thought = formData.get("body").trim();
 
   notes.unshift({
-    title: formData.get("title").trim(),
-    category: formData.get("category"),
-    body: formData.get("body").trim(),
+    title: createTitleFromThought(thought),
+    category: currentAutoCategory,
+    body: thought,
     source: "New note",
     date: "Just now",
   });
 
   noteForm.reset();
-  categoryWasManuallyChanged = false;
-  updateSuggestedCategory();
+  updateAutoCategory();
   setDictationState(false, "Tap to dictate");
   setActiveCategory("All");
   searchInput.value = "";
@@ -399,5 +396,5 @@ noteForm.addEventListener("submit", (event) => {
 });
 
 setupSpeechRecognition();
-updateSuggestedCategory();
+updateAutoCategory();
 renderNotes();
