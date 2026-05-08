@@ -99,38 +99,27 @@
                 <option>Deadlines</option>
                 <option>Random Thoughts</option>
               </select>
+              <p id="categorySuggestion" class="category-suggestion" aria-live="polite">
+                Suggested category: Random Thoughts
+              </p>
 
               <label for="noteBody">Paste notes or random thoughts</label>
-              <textarea
-                id="noteBody"
-                name="body"
-                rows="6"
-                placeholder="Drop a note, transcript excerpt, deadline, or thought here..."
-                required
-              ></textarea>
-
-              <div class="voice-capture" aria-labelledby="voiceCaptureLabel">
-                <div>
-                  <span id="voiceCaptureLabel">Voice-to-text</span>
-                  <p id="voiceStatus" aria-live="polite">
-                    Tap the microphone and speak to transcribe directly into this note.
-                  </p>
-                </div>
-                <div class="voice-actions">
-                  <button id="startVoice" class="voice-button" type="button" aria-label="Start voice recording">
-                    <span aria-hidden="true">Mic</span>
-                  </button>
-                  <button id="stopVoice" class="text-button stop-button" type="button" disabled>
-                    Stop
-                  </button>
-                </div>
+              <div class="thought-field">
+                <textarea
+                  id="noteBody"
+                  name="body"
+                  rows="6"
+                  placeholder="Type a thought or tap the microphone to dictate..."
+                  required
+                ></textarea>
+                <button id="dictationButton" class="voice-button" type="button" aria-label="Start dictation">
+                  <span aria-hidden="true">Mic</span>
+                </button>
               </div>
-
-              <label class="file-drop" for="transcriptionUpload">
-                <span>Upload voice memo transcription</span>
-                <small>Choose a .txt file and its contents will be added to the note.</small>
-                <input id="transcriptionUpload" type="file" accept=".txt,text/plain" />
-              </label>
+              <p id="voiceStatus" class="voice-status" aria-live="polite">Tap to dictate</p>
+              <p id="voiceFallback" class="voice-fallback" hidden>
+                Voice dictation is not supported in this browser. You can still type your thought.
+              </p>
 
               <button class="button" type="submit">Save to Second Brain</button>
             </form>

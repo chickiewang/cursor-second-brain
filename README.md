@@ -1,6 +1,6 @@
 # Second Brain
 
-A minimal, dependency-free web app for collecting notes, voice memo transcriptions, deadlines, and random thoughts into searchable category cards.
+A minimal, dependency-free web app for collecting notes, dictated thoughts, deadlines, and random ideas into searchable category cards.
 
 ## Features
 
@@ -8,8 +8,8 @@ A minimal, dependency-free web app for collecting notes, voice memo transcriptio
 - Searchable card-style notes
 - Colored category tags for YouTube Ideas, School, Travel, Deadlines, and Random Thoughts
 - Note capture form for pasted notes and quick thoughts
-- Text upload support for voice memo transcriptions
-- Browser voice-to-text capture with recording and stop controls
+- Browser voice-to-text dictation with clear listening/stopped states
+- Automatic category suggestions with manual override
 - Mobile-friendly responsive layout
 
 ## Run locally

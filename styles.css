@@ -370,7 +370,7 @@ h1 {
   gap: 12px;
 }
 
-.note-form label:not(.file-drop) {
+.note-form label {
   color: var(--muted);
   font-size: 0.82rem;
   font-weight: 800;
@@ -402,39 +402,37 @@ h1 {
   box-shadow: 0 0 0 4px rgba(47, 95, 79, 0.12);
 }
 
-.voice-capture {
-  align-items: center;
-  background: rgba(255, 255, 255, 0.58);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  display: flex;
-  gap: 14px;
-  justify-content: space-between;
-  padding: 14px;
-}
-
-.voice-capture.is-recording {
-  border-color: rgba(255, 107, 107, 0.7);
-  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.12);
-}
-
-.voice-capture span {
-  display: block;
-  font-weight: 800;
-}
-
-.voice-capture p {
+.category-suggestion,
+.voice-status,
+.voice-fallback {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.45;
-  margin: 4px 0 0;
+  margin: -4px 0 4px;
 }
 
-.voice-actions {
-  align-items: center;
-  display: flex;
-  flex-shrink: 0;
-  gap: 10px;
+.category-suggestion strong {
+  color: var(--accent);
+}
+
+.voice-status.is-listening {
+  color: var(--youtube);
+  font-weight: 800;
+}
+
+.voice-fallback {
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.thought-field {
+  position: relative;
+}
+
+.thought-field textarea {
+  padding-right: 82px;
 }
 
 .voice-button {
@@ -448,8 +446,11 @@ h1 {
   font-weight: 800;
   gap: 8px;
   justify-content: center;
-  min-height: 46px;
-  padding: 0 18px;
+  min-height: 44px;
+  padding: 0 16px;
+  position: absolute;
+  right: 12px;
+  top: 12px;
   transition:
     background 180ms ease,
     transform 180ms ease;
@@ -474,14 +475,9 @@ h1 {
   background: var(--youtube);
 }
 
-.voice-button:disabled,
-.stop-button:disabled {
+.voice-button:disabled {
   cursor: not-allowed;
   opacity: 0.48;
-}
-
-.stop-button {
-  color: var(--youtube);
 }
 
 @keyframes pulse-recording {
@@ -493,30 +489,6 @@ h1 {
   50% {
     box-shadow: 0 0 0 8px rgba(255, 107, 107, 0);
   }
-}
-
-.file-drop {
-  background: rgba(255, 255, 255, 0.54);
-  border: 1px dashed #cfbfaa;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  display: grid;
-  gap: 5px;
-  padding: 14px;
-}
-
-.file-drop span {
-  font-weight: 800;
-}
-
-.file-drop small {
-  color: var(--muted);
-  line-height: 1.45;
-}
-
-.file-drop input {
-  border: 0;
-  padding: 6px 0 0;
 }
 
 .notes-section {
@@ -685,19 +657,6 @@ h1 {
     width: 100%;
   }
 
-  .voice-capture {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .voice-actions {
-    justify-content: space-between;
-  }
-
-  .voice-button,
-  .stop-button {
-    flex: 1;
-  }
 }
 
 @media (max-width: 480px) {

@@ -112,21 +112,84 @@ const visibleCount = document.querySelector("#visibleCount");
 const emptyState = document.querySelector("#emptyState");
 const clearFilters = document.querySelector("#clearFilters");
 const noteForm = document.querySelector("#noteForm");
-const uploadInput = document.querySelector("#transcriptionUpload");
+const noteCategory = document.querySelector("#noteCategory");
+const categorySuggestion = document.querySelector("#categorySuggestion");
 const noteBody = document.querySelector("#noteBody");
 const totalNotesHero = document.querySelector("#totalNotesHero");
-const voiceCapture = document.querySelector(".voice-capture");
 const voiceStatus = document.querySelector("#voiceStatus");
-const startVoice = document.querySelector("#startVoice");
-const stopVoice = document.querySelector("#stopVoice");
+const voiceFallback = document.querySelector("#voiceFallback");
+const dictationButton = document.querySelector("#dictationButton");
 
 let activeCategory = "All";
 let recognition;
-let isRecording = false;
+let isListening = false;
 let speechStartText = "";
 let finalTranscript = "";
+let categoryWasManuallyChanged = false;
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const categoryKeywords = {
+  "YouTube Ideas": [
+    "youtube",
+    "video",
+    "vlog",
+    "shorts",
+    "channel",
+    "thumbnail",
+    "script",
+    "filming",
+    "edit",
+    "hook",
+    "content",
+    "episode",
+  ],
+  School: [
+    "school",
+    "class",
+    "homework",
+    "paper",
+    "essay",
+    "exam",
+    "quiz",
+    "lecture",
+    "professor",
+    "study",
+    "thesis",
+    "assignment",
+    "calculus",
+    "history",
+  ],
+  Travel: [
+    "travel",
+    "trip",
+    "flight",
+    "hotel",
+    "itinerary",
+    "packing",
+    "passport",
+    "train",
+    "museum",
+    "cafe",
+    "tokyo",
+    "lisbon",
+    "kyoto",
+  ],
+  Deadlines: [
+    "deadline",
+    "due",
+    "submit",
+    "application",
+    "reminder",
+    "urgent",
+    "finish",
+    "schedule",
+    "meeting",
+    "friday",
+    "tomorrow",
+    "11:59",
+  ],
+};
 
 function categoryClass(category) {
   return `tag-${categories[category]}`;
@@ -199,38 +262,68 @@ clearFilters.addEventListener("click", () => {
   setActiveCategory("All");
 });
 
+function suggestCategory(content) {
+  const normalizedContent = content.toLowerCase();
+  if (!normalizedContent.trim()) return "Random Thoughts";
+
+  const scoredCategories = Object.entries(categoryKeywords).map(([category, keywords]) => {
+    const score = keywords.reduce((total, keyword) => {
+      const pattern = new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "gi");
+      return total + (normalizedContent.match(pattern) || []).length;
+    }, 0);
+
+    return { category, score };
+  });
+
+  const bestMatch = scoredCategories.sort((a, b) => b.score - a.score)[0];
+  return bestMatch.score > 0 ? bestMatch.category : "Random Thoughts";
+}
+
+function showSuggestedCategory(category) {
+  const categoryName = document.createElement("strong");
+  categoryName.textContent = category;
+  categorySuggestion.replaceChildren("Suggested category: ", categoryName);
+}
+
+function updateSuggestedCategory() {
+  const suggestedCategory = suggestCategory(`${noteBody.value} ${document.querySelector("#noteTitle").value}`);
+  showSuggestedCategory(suggestedCategory);
+
+  if (!categoryWasManuallyChanged) {
+    noteCategory.value = suggestedCategory;
+  }
+}
+
 function appendTranscript(interimTranscript = "") {
   const baseText = speechStartText.trim();
   const spokenText = `${finalTranscript} ${interimTranscript}`.trim();
   noteBody.value = [baseText, spokenText].filter(Boolean).join(baseText && spokenText ? "\n\n" : "");
+  noteBody.dispatchEvent(new Event("input"));
 }
 
-function setRecordingState(recording) {
-  isRecording = recording;
-  voiceCapture.classList.toggle("is-recording", recording);
-  startVoice.classList.toggle("is-recording", recording);
-  startVoice.disabled = recording || !recognition;
-  stopVoice.disabled = !recording;
-  startVoice.setAttribute("aria-label", recording ? "Voice recording in progress" : "Start voice recording");
+function setDictationState(listening, statusText) {
+  isListening = listening;
+  dictationButton.classList.toggle("is-recording", listening);
+  voiceStatus.classList.toggle("is-listening", listening);
+  voiceStatus.textContent = statusText;
+  dictationButton.setAttribute("aria-label", listening ? "Stop dictation" : "Start dictation");
 }
 
 function setupSpeechRecognition() {
   if (!SpeechRecognition) {
-    startVoice.disabled = true;
-    stopVoice.disabled = true;
-    voiceStatus.textContent =
-      "Voice recognition is not supported in this browser. You can still paste notes or upload a transcription.";
+    dictationButton.disabled = true;
+    voiceFallback.hidden = false;
+    voiceStatus.textContent = "Tap to dictate";
     return;
   }
 
   recognition = new SpeechRecognition();
-  recognition.continuous = true;
+  recognition.continuous = false;
   recognition.interimResults = true;
   recognition.lang = "en-US";
 
   recognition.addEventListener("start", () => {
-    setRecordingState(true);
-    voiceStatus.textContent = "Recording... speak naturally. Your words will appear in the note box.";
+    setDictationState(true, "Listening...");
   });
 
   recognition.addEventListener("result", (event) => {
@@ -249,21 +342,22 @@ function setupSpeechRecognition() {
   });
 
   recognition.addEventListener("error", (event) => {
-    const fallback = event.error === "not-allowed" ? " Microphone permission was blocked." : "";
-    voiceStatus.textContent = `Voice recognition stopped.${fallback}`;
-    setRecordingState(false);
+    const permissionMessage = event.error === "not-allowed" ? " Microphone permission was blocked." : "";
+    setDictationState(false, `Dictation stopped.${permissionMessage}`);
   });
 
   recognition.addEventListener("end", () => {
-    setRecordingState(false);
-    voiceStatus.textContent = finalTranscript
-      ? "Transcription added. Tap the microphone to record more."
-      : "Recording stopped. Tap the microphone to try again.";
+    setDictationState(false, "Dictation stopped.");
   });
 }
 
-startVoice.addEventListener("click", () => {
-  if (!recognition || isRecording) return;
+dictationButton.addEventListener("click", () => {
+  if (!recognition) return;
+
+  if (isListening) {
+    recognition.stop();
+    return;
+  }
 
   speechStartText = noteBody.value;
   finalTranscript = "";
@@ -271,24 +365,16 @@ startVoice.addEventListener("click", () => {
   try {
     recognition.start();
   } catch (error) {
-    voiceStatus.textContent = "Voice recognition is already starting. Please try again in a moment.";
+    setDictationState(false, "Dictation stopped.");
   }
 });
 
-stopVoice.addEventListener("click", () => {
-  if (!recognition || !isRecording) return;
-  recognition.stop();
-  voiceStatus.textContent = "Stopping recording...";
-});
+noteBody.addEventListener("input", updateSuggestedCategory);
 
-uploadInput.addEventListener("change", async (event) => {
-  const [file] = event.target.files;
-  if (!file) return;
+document.querySelector("#noteTitle").addEventListener("input", updateSuggestedCategory);
 
-  const transcription = await file.text();
-  noteBody.value = noteBody.value
-    ? `${noteBody.value.trim()}\n\n${transcription.trim()}`
-    : transcription.trim();
+noteCategory.addEventListener("change", () => {
+  categoryWasManuallyChanged = true;
 });
 
 noteForm.addEventListener("submit", (event) => {
@@ -299,15 +385,19 @@ noteForm.addEventListener("submit", (event) => {
     title: formData.get("title").trim(),
     category: formData.get("category"),
     body: formData.get("body").trim(),
-    source: uploadInput.files.length ? "Uploaded transcription" : "New note",
+    source: "New note",
     date: "Just now",
   });
 
   noteForm.reset();
+  categoryWasManuallyChanged = false;
+  updateSuggestedCategory();
+  setDictationState(false, "Tap to dictate");
   setActiveCategory("All");
   searchInput.value = "";
   renderNotes();
 });
 
 setupSpeechRecognition();
+updateSuggestedCategory();
 renderNotes();
