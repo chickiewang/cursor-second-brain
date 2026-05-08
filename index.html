@@ -74,15 +74,6 @@
           </label>
         </div>
 
-        <div class="category-bar" aria-label="Filter notes by category">
-          <button class="category-filter active" data-category="All">All</button>
-          <button class="category-filter" data-category="YouTube Ideas">YouTube Ideas</button>
-          <button class="category-filter" data-category="School">School</button>
-          <button class="category-filter" data-category="Travel">Travel</button>
-          <button class="category-filter" data-category="Deadlines">Deadlines</button>
-          <button class="category-filter" data-category="Random Thoughts">Random Thoughts</button>
-        </div>
-
         <div class="dashboard-grid">
           <aside class="capture-panel" id="capture" aria-labelledby="capture-title">
             <p class="eyebrow">Capture</p>
@@ -116,9 +107,9 @@
           <section class="notes-section" aria-live="polite">
             <div class="notes-toolbar">
               <p><span id="visibleCount">0</span> notes shown</p>
-              <button id="clearFilters" class="text-button" type="button">Clear filters</button>
+              <button id="clearFilters" class="text-button" type="button">Clear search</button>
             </div>
-            <div id="notesGrid" class="notes-grid"></div>
+            <div id="categoryList" class="category-list"></div>
             <p id="emptyState" class="empty-state" hidden>
               No notes match that search yet. Try another keyword or add a new thought.
             </p>

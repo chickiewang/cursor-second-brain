@@ -72,7 +72,6 @@ a {
 .brand,
 .nav-links,
 .hero-actions,
-.category-bar,
 .notes-toolbar,
 .hero-stats {
   align-items: center;
@@ -311,30 +310,9 @@ h1 {
   width: 100%;
 }
 
-.category-bar {
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.category-filter,
 .text-button {
   cursor: pointer;
   font-weight: 700;
-}
-
-.category-filter {
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--muted);
-  padding: 10px 14px;
-}
-
-.category-filter.active {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: #fff;
 }
 
 .dashboard-grid {
@@ -345,6 +323,7 @@ h1 {
 }
 
 .capture-panel,
+.category-panel,
 .note-card {
   background: rgba(255, 250, 242, 0.86);
   border: 1px solid rgba(232, 222, 208, 0.96);
@@ -515,10 +494,72 @@ h1 {
   padding: 8px 0;
 }
 
-.notes-grid {
+.category-list {
   display: grid;
-  gap: 18px;
+  gap: 12px;
+}
+
+.category-panel {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.category-toggle {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  padding: 16px;
+  text-align: left;
+  width: 100%;
+}
+
+.category-summary {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.category-count {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.category-icon {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  display: grid;
+  flex: 0 0 34px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  height: 34px;
+  place-items: center;
+  width: 34px;
+}
+
+.category-notes {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 14px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 16px;
+}
+
+.category-notes[hidden] {
+  display: none;
+}
+
+.empty-category {
+  color: var(--muted);
+  grid-column: 1 / -1;
+  margin: 0;
 }
 
 .note-card {
@@ -526,7 +567,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  min-height: 245px;
+  min-height: 215px;
   overflow: hidden;
   padding: 20px;
 }
@@ -648,7 +689,7 @@ h1 {
     min-width: 0;
   }
 
-  .notes-grid {
+  .category-notes {
     grid-template-columns: 1fr;
   }
 

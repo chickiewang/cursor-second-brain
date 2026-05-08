@@ -105,9 +105,8 @@ const notes = [
   },
 ];
 
-const notesGrid = document.querySelector("#notesGrid");
+const categoryList = document.querySelector("#categoryList");
 const searchInput = document.querySelector("#searchInput");
-const categoryButtons = document.querySelectorAll(".category-filter");
 const visibleCount = document.querySelector("#visibleCount");
 const emptyState = document.querySelector("#emptyState");
 const clearFilters = document.querySelector("#clearFilters");
@@ -119,12 +118,12 @@ const voiceStatus = document.querySelector("#voiceStatus");
 const voiceFallback = document.querySelector("#voiceFallback");
 const dictationButton = document.querySelector("#dictationButton");
 
-let activeCategory = "All";
 let recognition;
 let isListening = false;
 let speechStartText = "";
 let finalTranscript = "";
 let currentAutoCategory = "Random Thoughts";
+const openCategories = new Set(["Random Thoughts"]);
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -201,16 +200,77 @@ function noteMatchesSearch(note, query) {
 
 function renderNotes() {
   const query = searchInput.value.trim().toLowerCase();
-  const filteredNotes = notes.filter((note) => {
-    const matchesCategory = activeCategory === "All" || note.category === activeCategory;
-    return matchesCategory && noteMatchesSearch(note, query);
-  });
+  const filteredNotes = notes.filter((note) => noteMatchesSearch(note, query));
 
-  notesGrid.replaceChildren(...filteredNotes.map(createNoteCard));
+  categoryList.replaceChildren(
+    ...Object.keys(categories).map((category) => {
+      const categoryNotes = filteredNotes.filter((note) => note.category === category);
+      return createCategoryPanel(category, categoryNotes, Boolean(query));
+    }),
+  );
 
   visibleCount.textContent = filteredNotes.length;
   totalNotesHero.textContent = notes.length;
   emptyState.hidden = filteredNotes.length > 0;
+}
+
+function createCategoryPanel(category, categoryNotes, hasSearchQuery) {
+  const panel = document.createElement("section");
+  panel.className = "category-panel";
+
+  const panelId = `category-${categories[category]}`;
+  const isOpen = openCategories.has(category) || (hasSearchQuery && categoryNotes.length > 0);
+
+  const toggle = document.createElement("button");
+  toggle.className = "category-toggle";
+  toggle.type = "button";
+  toggle.setAttribute("aria-expanded", String(isOpen));
+  toggle.setAttribute("aria-controls", panelId);
+
+  const summary = document.createElement("span");
+  summary.className = "category-summary";
+
+  const tag = document.createElement("span");
+  tag.className = `tag ${categoryClass(category)}`;
+  tag.textContent = category;
+
+  const count = document.createElement("span");
+  count.className = "category-count";
+  count.textContent = `${categoryNotes.length} ${categoryNotes.length === 1 ? "note" : "notes"}`;
+
+  const icon = document.createElement("span");
+  icon.className = "category-icon";
+  icon.setAttribute("aria-hidden", "true");
+  icon.textContent = isOpen ? "-" : "+";
+
+  summary.append(tag, count);
+  toggle.append(summary, icon);
+
+  const body = document.createElement("div");
+  body.className = "category-notes";
+  body.id = panelId;
+  body.hidden = !isOpen;
+
+  if (categoryNotes.length) {
+    body.replaceChildren(...categoryNotes.map(createNoteCard));
+  } else {
+    const emptyCategory = document.createElement("p");
+    emptyCategory.className = "empty-category";
+    emptyCategory.textContent = "Nothing saved here yet.";
+    body.append(emptyCategory);
+  }
+
+  toggle.addEventListener("click", () => {
+    if (openCategories.has(category)) {
+      openCategories.delete(category);
+    } else {
+      openCategories.add(category);
+    }
+    renderNotes();
+  });
+
+  panel.append(toggle, body);
+  return panel;
 }
 
 function createNoteCard(note) {
@@ -242,23 +302,11 @@ function createNoteCard(note) {
   return card;
 }
 
-function setActiveCategory(category) {
-  activeCategory = category;
-  categoryButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.category === category);
-  });
-  renderNotes();
-}
-
-categoryButtons.forEach((button) => {
-  button.addEventListener("click", () => setActiveCategory(button.dataset.category));
-});
-
 searchInput.addEventListener("input", renderNotes);
 
 clearFilters.addEventListener("click", () => {
   searchInput.value = "";
-  setActiveCategory("All");
+  renderNotes();
 });
 
 function suggestCategory(content) {
@@ -378,10 +426,11 @@ noteForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const formData = new FormData(noteForm);
   const thought = formData.get("body").trim();
+  const savedCategory = currentAutoCategory;
 
   notes.unshift({
     title: createTitleFromThought(thought),
-    category: currentAutoCategory,
+    category: savedCategory,
     body: thought,
     source: "New note",
     date: "Just now",
@@ -390,7 +439,7 @@ noteForm.addEventListener("submit", (event) => {
   noteForm.reset();
   updateAutoCategory();
   setDictationState(false, "Tap to dictate");
-  setActiveCategory("All");
+  openCategories.add(savedCategory);
   searchInput.value = "";
   renderNotes();
 });

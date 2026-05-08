@@ -7,6 +7,7 @@ A minimal, dependency-free web app for collecting notes, dictated thoughts, dead
 - Clean landing page and populated dashboard
 - Searchable card-style notes
 - Colored category tags for YouTube Ideas, School, Travel, Deadlines, and Random Thoughts
+- Minimal collapsible category sections for browsing saved notes
 - Minimal thought box for typed or dictated notes
 - Browser voice-to-text dictation with clear listening/stopped states
 - Automatic category assignment based on note content
