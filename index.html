@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Second Brain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav container" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Second Brain home">
+          <span class="brand-mark">SB</span>
+          <span>Second Brain</span>
+        </a>
+        <div class="nav-links">
+          <a href="#dashboard">Dashboard</a>
+          <a href="#capture">Capture</a>
+          <a href="#recent">Recent</a>
+          <a class="button button-small" href="#capture">New thought</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero container" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Soft capture for a busy mind</p>
+          <h1 id="hero-title">A beautiful place to save every little thought.</h1>
+          <p class="hero-text">
+            Dictate, type, search, and rediscover your ideas in a calm, minimal dashboard that
+            sorts everything into gentle folders automatically.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#capture">Capture a thought</a>
+            <a class="button button-secondary" href="#dashboard">Open folders</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Example note preview">
+          <div class="floating-note">
+            <span class="tag tag-youtube">🎥 content idea</span>
+            <h2>Cozy reset vlog opening</h2>
+            <p>Start with blush morning light, coffee, a clean desk, and a tiny voiceover about clearing mental tabs.</p>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <strong id="totalNotesHero">12</strong>
+              <span>captured thoughts</span>
+            </div>
+            <div>
+              <strong>5</strong>
+              <span>soft folders</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="dashboard container" id="dashboard" aria-labelledby="dashboard-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2 id="dashboard-title">Your saved thoughts, softly organized.</h2>
+          </div>
+          <label class="search" for="searchInput">
+            <span>Search</span>
+            <input id="searchInput" type="search" placeholder="Search thoughts, tags, dates..." />
+          </label>
+        </div>
+
+        <div class="dashboard-grid">
+          <aside class="capture-panel" id="capture" aria-labelledby="capture-title">
+            <p class="eyebrow">Capture</p>
+            <h2 id="capture-title">What is on your mind?</h2>
+            <form id="noteForm" class="note-form">
+              <label for="noteBody">Thought</label>
+              <div class="thought-field">
+                <textarea
+                  id="noteBody"
+                  name="body"
+                  rows="8"
+                  placeholder="Type here, or tap the mic and dictate from your phone..."
+                  required
+                ></textarea>
+                <button id="dictationButton" class="voice-button" type="button" aria-label="Start dictation">
+                  <span aria-hidden="true">🎙</span>
+                </button>
+              </div>
+              <p id="autoCategory" class="auto-category" aria-live="polite">
+                Auto-sorted to <strong>Random Thoughts</strong>
+              </p>
+              <p id="voiceStatus" class="voice-status" aria-live="polite">Tap to dictate</p>
+              <p id="voiceFallback" class="voice-fallback" hidden>
+                Voice dictation is not supported in this browser. You can still type your thought.
+              </p>
+
+              <button class="button" type="submit">Save thought</button>
+            </form>
+          </aside>
+
+          <section class="notes-section" aria-live="polite">
+            <div class="notes-toolbar">
+              <p><span id="visibleCount">0</span> thoughts shown</p>
+              <button id="clearFilters" class="text-button" type="button">Clear search</button>
+            </div>
+            <div id="categoryList" class="category-list"></div>
+            <p id="emptyState" class="empty-state" hidden>
+              No thoughts match that search yet. Try another keyword or capture something new.
+            </p>
+          </section>
+        </div>
+
+        <section class="insights-grid" aria-label="Thought highlights">
+          <section class="insight-panel" id="recent" aria-labelledby="recent-title">
+            <div class="panel-heading">
+              <p class="eyebrow">Recently Captured</p>
+              <h2 id="recent-title">Latest little sparks</h2>
+            </div>
+            <div id="recentTimeline" class="timeline"></div>
+          </section>
+
+          <section class="insight-panel" aria-labelledby="resurface-title">
+            <div class="panel-heading">
+              <p class="eyebrow">Resurface old ideas</p>
+              <h2 id="resurface-title">Worth revisiting</h2>
+            </div>
+            <div id="resurfaceList" class="resurface-list"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer container">
+      <p>Second Brain keeps your tiny sparks close, searchable, and easy to revisit.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
