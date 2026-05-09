@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Second Brain</title>
+    <meta
+      name="description"
+      content="A soft, minimal dashboard for capturing thoughts, ideas, travel notes, deadlines, and creative sparks."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="app-shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <nav class="topbar" aria-label="Primary">
+          <a class="brand" href="#dashboard" aria-label="Second Brain home">
+            <span class="brand-mark">✦</span>
+            <span>Second Brain</span>
+          </a>
+          <div class="topbar-actions">
+            <a href="#capture" class="ghost-link">Capture</a>
+            <a href="#dashboard" class="pill-link">Open dashboard</a>
+          </div>
+        </nav>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Soft storage for chaotic creative thoughts</p>
+            <h1 id="hero-title">Capture every tiny spark before it floats away.</h1>
+            <p class="hero-text">
+              A calm second brain for voice notes, study ideas, travel memories,
+              content concepts, reminders, and the midnight sentences that deserve
+              somewhere prettier than a forgotten Notes folder.
+            </p>
+            <div class="hero-actions">
+              <a href="#capture" class="primary-button">Start writing</a>
+              <a href="#recent" class="secondary-button">See recent captures</a>
+            </div>
+          </div>
+
+          <aside class="hero-card" aria-label="Preview note">
+            <div class="card-toolbar">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <p class="hero-card-label">Just captured</p>
+            <h2>Film the airport journaling intro</h2>
+            <p>
+              Open with a latte, boarding pass, and a messy voice memo about
+              romanticizing study days while traveling.
+            </p>
+            <div class="note-meta">
+              <span>🎥 YouTube Ideas</span>
+              <span>Today, 8:12 AM</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="dashboard" id="dashboard" aria-label="Second Brain dashboard">
+        <div class="dashboard-header">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2>Your soft command center</h2>
+          </div>
+          <label class="search" for="search-input">
+            <span>⌕</span>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Search thoughts, tags, categories..."
+              autocomplete="off"
+            />
+          </label>
+        </div>
+
+        <div class="dashboard-layout">
+          <section class="capture-card" id="capture" aria-labelledby="capture-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Quick capture</p>
+                <h3 id="capture-title">Dump a thought</h3>
+              </div>
+              <span class="soft-badge" id="suggested-category">Random Thoughts</span>
+            </div>
+
+            <div class="capture-input-wrap">
+              <textarea
+                id="thought-input"
+                rows="7"
+                placeholder="Type a messy idea, paste a screenshot caption, or tap the mic and talk..."
+                aria-label="Thought input"
+              ></textarea>
+              <button
+                id="mic-button"
+                class="mic-button"
+                type="button"
+                aria-label="Start voice dictation"
+                title="Voice-to-text"
+              >
+                <span aria-hidden="true">🎙️</span>
+              </button>
+            </div>
+
+            <div class="capture-footer">
+              <div class="tag-row" aria-label="Suggested icons">
+                <button class="tag-chip" type="button" data-insert="✈️">✈️ Travel</button>
+                <button class="tag-chip" type="button" data-insert="☕">☕ Cafe</button>
+                <button class="tag-chip" type="button" data-insert="🌙">🌙 Late night</button>
+                <button class="tag-chip" type="button" data-insert="🎥">🎥 Video</button>
+              </div>
+              <button id="save-button" class="primary-button" type="button">Save thought</button>
+            </div>
+            <p class="microcopy" id="dictation-status" role="status">
+              Dictation uses your browser's speech recognition when available.
+            </p>
+          </section>
+
+          <aside class="resurface-card" aria-labelledby="resurface-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Resurface old ideas</p>
+                <h3 id="resurface-title">Forgotten gems</h3>
+              </div>
+              <span class="sparkle">✧</span>
+            </div>
+            <div id="resurface-list" class="stacked-list"></div>
+          </aside>
+        </div>
+
+        <section class="recent-card" id="recent" aria-labelledby="recent-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Recently captured</p>
+              <h3 id="recent-title">Fresh from your brain</h3>
+            </div>
+            <span class="soft-badge" id="thought-count">0 thoughts</span>
+          </div>
+          <div id="recent-list" class="note-grid"></div>
+        </section>
+
+        <section class="folders-card" aria-labelledby="folders-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Organization</p>
+              <h3 id="folders-title">Collapsible folders</h3>
+            </div>
+            <button id="expand-toggle" class="secondary-button" type="button">Collapse all</button>
+          </div>
+          <div id="folders" class="folders"></div>
+        </section>
+      </section>
+    </main>
+
+    <template id="note-template">
+      <article class="note-card">
+        <div class="note-card-top">
+          <span class="note-icon"></span>
+          <span class="note-time"></span>
+        </div>
+        <h4></h4>
+        <p></p>
+        <div class="note-meta"></div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>

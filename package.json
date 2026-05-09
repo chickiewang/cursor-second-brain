@@ -1,0 +1,10 @@
+{
+  "name": "second-brain",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A soft, minimal second brain web app for capturing creative thoughts.",
+  "scripts": {
+    "start": "python3 -m http.server 5173",
+    "check": "node --check app.js"
+  }
+}
