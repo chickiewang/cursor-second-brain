@@ -47,7 +47,7 @@ const sampleThoughts = [
   },
   {
     body:
-      "Pack the cream cardigan, film camera, mini tripod, and the tiny notebook with the pink elastic. Leave room for books from the station shop.",
+      "Pack the cream cardigan, film camera, mini tripod, and the tiny notebook with the sage elastic. Leave room for books from the station shop.",
     category: "Travel",
     createdAt: hoursAgo(5),
     tags: ["✈️"],
@@ -89,7 +89,7 @@ const sampleThoughts = [
   },
   {
     body:
-      "Edit the Rome b-roll into a quiet montage: crosswalk sounds, receipt closeups, pink sunset, then the sentence 'I kept the proof that I was here.'",
+      "Edit the Rome b-roll into a quiet montage: crosswalk sounds, receipt closeups, blue-hour sky, then the sentence 'I kept the proof that I was here.'",
     category: "YouTube Ideas",
     createdAt: daysAgo(9, 18, 26),
     tags: ["🎥", "✈️", "🌙"],
