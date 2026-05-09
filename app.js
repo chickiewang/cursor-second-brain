@@ -120,6 +120,7 @@ const sampleThoughts = [
 let thoughts = loadThoughts();
 let recognition = null;
 let isListening = false;
+let dictationBaseText = "";
 let allExpanded = true;
 
 const els = {
@@ -230,19 +231,20 @@ function setupSpeechRecognition() {
 
   recognition.addEventListener("start", () => {
     isListening = true;
+    dictationBaseText = els.input.value.trim();
     els.micButton.classList.add("is-listening");
     els.dictationStatus.textContent = "Listening... speak your messy idea.";
   });
 
   recognition.addEventListener("result", (event) => {
     const transcript = Array.from(event.results)
-      .slice(event.resultIndex)
       .map((result) => result[0].transcript)
-      .join("");
+      .join(" ")
+      .trim();
 
     if (transcript) {
-      const spacer = els.input.value.trim().length ? " " : "";
-      els.input.value = `${els.input.value}${spacer}${transcript.trim()}`;
+      const spacer = dictationBaseText ? " " : "";
+      els.input.value = `${dictationBaseText}${spacer}${transcript}`;
       els.suggestedCategory.textContent = suggestCategory(els.input.value).name;
     }
   });

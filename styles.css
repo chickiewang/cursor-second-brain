@@ -421,6 +421,24 @@ textarea:focus,
     var(--shadow-soft);
 }
 
+textarea.needs-attention {
+  animation: attention 0.42s ease;
+  border-color: rgba(217, 130, 148, 0.65);
+}
+
+@keyframes attention {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  35% {
+    transform: translateX(-5px);
+  }
+  70% {
+    transform: translateX(5px);
+  }
+}
+
 .mic-button {
   position: absolute;
   top: 16px;
