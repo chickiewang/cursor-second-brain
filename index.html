@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Second Brain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <nav class="nav container" aria-label="Primary navigation">
+          <a class="brand" href="#top" aria-label="Second Brain home">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span>Second Brain</span>
+          </a>
+          <div class="nav-links">
+            <a href="#capture">Capture</a>
+            <a href="#folders">Folders</a>
+            <a href="#resurface">Resurface</a>
+          </div>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero container" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="eyebrow">Soft notes for a busy mind</p>
+            <h1 id="hero-title">A calm, pretty home for every idea you do not want to lose.</h1>
+            <p class="hero-text">
+              Capture voice notes, class reminders, content ideas, travel plans, and late-night thoughts
+              into a searchable, organized second brain.
+            </p>
+            <div class="hero-actions">
+              <a class="button" href="#capture">Capture a thought</a>
+              <a class="button button-secondary" href="#recent">View timeline</a>
+            </div>
+          </div>
+
+          <aside class="hero-card" aria-label="Dashboard preview">
+            <div class="hero-card-header">
+              <span class="soft-pill">Today</span>
+              <span>May 9</span>
+            </div>
+            <article class="floating-note">
+              <span class="tag tag-youtube"><span aria-hidden="true">🎥</span> content idea</span>
+              <h2>Cafe study vlog opening</h2>
+              <p>
+                Start with iced coffee, soft morning light, and a tiny checklist overlay before the study
+                montage begins.
+              </p>
+            </article>
+            <div class="hero-stats">
+              <div>
+                <strong id="totalThoughtsHero">0</strong>
+                <span>saved thoughts</span>
+              </div>
+              <div>
+                <strong id="resurfaceCountHero">0</strong>
+                <span>ideas to revisit</span>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="dashboard container" aria-label="Second Brain dashboard">
+          <aside class="capture-card" id="capture" aria-labelledby="capture-title">
+            <div class="section-kicker">
+              <span aria-hidden="true">☁️</span>
+              <span>Quick capture</span>
+            </div>
+            <h2 id="capture-title">What is on your mind?</h2>
+            <p class="panel-description">
+              Type a thought or use dictation. Second Brain will suggest a folder, create a clean title,
+              and save it with today&apos;s timestamp.
+            </p>
+
+            <form id="thoughtForm" class="thought-form">
+              <label for="thoughtInput">Thought</label>
+              <div class="thought-field">
+                <textarea
+                  id="thoughtInput"
+                  name="thought"
+                  rows="8"
+                  placeholder="Write anything here... a video hook, deadline, travel note, class reminder, or tiny idea."
+                  required
+                ></textarea>
+                <button id="dictationButton" class="mic-button" type="button" aria-label="Start dictation">
+                  <span aria-hidden="true">🎙️</span>
+                </button>
+              </div>
+
+              <div class="capture-insights" aria-live="polite">
+                <p id="autoCategory" class="auto-category">
+                  Suggested folder: <strong>Random Thoughts</strong>
+                </p>
+                <p id="autoTitle" class="auto-title">Title preview: <strong>Untitled thought</strong></p>
+                <p id="voiceStatus" class="voice-status">Tap the microphone to dictate.</p>
+              </div>
+              <p id="voiceFallback" class="voice-fallback" hidden>
+                Voice dictation is not available in this browser. You can still type your thought.
+              </p>
+
+              <button class="button button-full" type="submit">Save thought</button>
+            </form>
+          </aside>
+
+          <section class="workspace" aria-label="Thought workspace">
+            <div class="search-card">
+              <label class="search" for="searchInput">
+                <span aria-hidden="true">⌕</span>
+                <input
+                  id="searchInput"
+                  type="search"
+                  placeholder="Search ideas, tags, folders, dates..."
+                  autocomplete="off"
+                />
+              </label>
+              <button id="clearSearch" class="text-button" type="button">Clear</button>
+            </div>
+
+            <section class="recent-card" id="recent" aria-labelledby="recent-title">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Recently Captured</p>
+                  <h2 id="recent-title">Fresh thoughts timeline</h2>
+                </div>
+                <span id="visibleCount" class="count-pill">0 shown</span>
+              </div>
+              <div id="recentTimeline" class="timeline"></div>
+              <p id="emptyState" class="empty-state" hidden>
+                No thoughts match that search yet. Try another word or save a new thought.
+              </p>
+            </section>
+          </section>
+        </section>
+
+        <section class="lower-grid container">
+          <section class="folders-card" id="folders" aria-labelledby="folders-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Folders</p>
+                <h2 id="folders-title">Organized by category</h2>
+              </div>
+              <span id="folderCount" class="count-pill">5 folders</span>
+            </div>
+            <div id="categoryList" class="category-list"></div>
+          </section>
+
+          <aside class="side-stack" aria-label="Date and resurfacing views">
+            <section class="date-card" aria-labelledby="date-title">
+              <p class="eyebrow">By date</p>
+              <h2 id="date-title">Grouped by time</h2>
+              <div id="dateGroups" class="date-groups"></div>
+            </section>
+
+            <section class="resurface-card" id="resurface" aria-labelledby="resurface-title">
+              <div class="section-kicker">
+                <span aria-hidden="true">🌙</span>
+                <span>Resurface old ideas</span>
+              </div>
+              <h2 id="resurface-title">Worth revisiting</h2>
+              <p class="panel-description">
+                Forgotten notes that have not been opened recently, gathered gently for your next review.
+              </p>
+              <div id="resurfaceList" class="resurface-list"></div>
+            </section>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="footer container">
+        <p>Second Brain keeps your ideas soft, searchable, and ready when you need them.</p>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
