@@ -1,107 +1,121 @@
-const categories = {
-  "YouTube Ideas": "youtube",
-  School: "school",
-  Travel: "travel",
-  Deadlines: "deadlines",
-  "Random Thoughts": "random",
+const categoryDetails = {
+  "YouTube Ideas": { slug: "youtube", icon: "🎥" },
+  School: { slug: "school", icon: "📚" },
+  Travel: { slug: "travel", icon: "✈️" },
+  Deadlines: { slug: "deadlines", icon: "⏰" },
+  "Random Thoughts": { slug: "random", icon: "🌙" },
 };
+
+const categories = Object.keys(categoryDetails);
 
 const notes = [
   {
-    title: "Video hook: study reset",
+    title: "Cozy reset vlog opening",
     category: "YouTube Ideas",
     body:
-      "Open with a messy desk time-lapse, then cut to a quiet 25-minute planning ritual with warm music and captions.",
-    source: "Pasted note",
-    date: "Today",
+      "Film a soft Sunday reset: coffee on the nightstand, fresh sheets, desk cleanup, then voiceover about clearing mental tabs before a busy week.",
+    createdAt: "2026-05-09T07:45:00",
+    lastRevisitedAt: "2026-05-09T08:00:00",
+    tags: ["🎥 content idea", "☕ cafe", "🌙 late night"],
   },
   {
-    title: "History paper thesis",
+    title: "Scholarship essay angle",
     category: "School",
     body:
-      "Argue that local newspapers shaped public opinion faster than official speeches during the early reform period.",
-    source: "Class notes",
-    date: "Yesterday",
+      "Write about learning to build calm systems when life feels scattered. Tie it back to design, school routines, and helping other students feel less overwhelmed.",
+    createdAt: "2026-05-08T18:20:00",
+    lastRevisitedAt: "2026-05-08T19:10:00",
+    tags: ["📚 study", "✍️ essay"],
   },
   {
-    title: "Lisbon food list",
+    title: "Lisbon morning itinerary",
     category: "Travel",
     body:
-      "Try pasteis de nata near Belem, book the tile museum, and keep one slow afternoon open for Alfama photos.",
-    source: "Voice memo",
-    date: "Mar 18",
+      "Start in Alfama before the crowds, find a tiny tiled cafe, then take tram photos near golden hour. Keep the afternoon intentionally unscheduled.",
+    createdAt: "2026-05-08T10:15:00",
+    lastRevisitedAt: "2026-05-08T11:00:00",
+    tags: ["✈️ travel", "☕ cafe"],
   },
   {
-    title: "Scholarship application",
+    title: "Portfolio submission checklist",
     category: "Deadlines",
     body:
-      "Draft personal statement by Friday, request recommendation letter, and upload transcript before 11:59 PM.",
-    source: "Reminder",
-    date: "Mar 16",
+      "Polish the case study intro, export the mobile screens, record a 45-second walkthrough, and submit everything before Friday night.",
+    createdAt: "2026-05-07T21:35:00",
+    lastRevisitedAt: "2026-05-07T22:00:00",
+    tags: ["⏰ deadline", "💻 portfolio"],
   },
   {
-    title: "Tiny observation",
+    title: "Tiny rule for better notes",
     category: "Random Thoughts",
     body:
-      "People remember how simple a tool feels more than how many features it technically has.",
-    source: "Random thought",
-    date: "Mar 14",
+      "Every note should either become a task, a memory, a reference, or a question. If it is none of those, it can probably be deleted.",
+    createdAt: "2026-05-06T23:42:00",
+    lastRevisitedAt: "2026-05-07T08:10:00",
+    tags: ["🌙 late night", "🧠 idea"],
   },
   {
-    title: "Voice memo: channel themes",
+    title: "Study-with-me video structure",
     category: "YouTube Ideas",
     body:
-      "Three recurring playlists: productive weekends, honest school diaries, and travel planning breakdowns.",
-    source: "Transcription",
-    date: "Mar 12",
+      "Three chapters: planning the session, quiet study blocks with timer overlays, and a realistic recap of what actually got done.",
+    createdAt: "2026-05-05T14:10:00",
+    lastRevisitedAt: "2026-05-05T14:20:00",
+    tags: ["🎥 content idea", "📚 study"],
   },
   {
-    title: "Calculus exam prep",
+    title: "Exam review ritual",
     category: "School",
     body:
-      "Review integration by parts, redo problem set 6, and make a formula sheet from the last three quizzes.",
-    source: "Study plan",
-    date: "Mar 10",
+      "Make one pink index card per concept: definition, one example, one mistake to avoid. Review while walking instead of sitting at the desk again.",
+    createdAt: "2026-05-04T09:25:00",
+    lastRevisitedAt: "2026-05-04T12:40:00",
+    tags: ["📚 study", "📝 review"],
   },
   {
-    title: "Tokyo packing notes",
+    title: "Tokyo packing moodboard",
     category: "Travel",
     body:
-      "Pack compression cubes, portable charger, rain shell, Suica card, and one blank notebook for cafe sketches.",
-    source: "Checklist",
-    date: "Mar 8",
+      "Neutral capsule outfits, comfortable sneakers, small perfume, travel journal, portable charger, and a blush pouch for receipts and tickets.",
+    createdAt: "2026-04-29T17:50:00",
+    lastRevisitedAt: "2026-04-30T08:00:00",
+    tags: ["✈️ travel", "🧳 packing"],
   },
   {
-    title: "Project pitch due",
+    title: "Presentation due Monday",
     category: "Deadlines",
     body:
-      "Finalize slides, add a quick prototype recording, and rehearse the two-minute problem statement.",
-    source: "Deadline",
-    date: "Mar 7",
+      "Need to simplify slides 6 and 7, make the problem statement feel more human, and practice the opening without reading from notes.",
+    createdAt: "2026-04-24T20:12:00",
+    lastRevisitedAt: "2026-04-25T07:25:00",
+    tags: ["⏰ deadline", "🎤 presentation"],
   },
   {
-    title: "Late night idea",
+    title: "Cafe work session idea",
     category: "Random Thoughts",
     body:
-      "Build a weekly review ritual around three questions: what mattered, what moved, and what needs a home?",
-    source: "Pasted note",
-    date: "Mar 5",
+      "Try making Friday mornings a gentle admin ritual: cafe, inbox cleanup, calendar review, and one small reward before noon.",
+    createdAt: "2026-04-18T08:05:00",
+    lastRevisitedAt: "2026-04-18T08:20:00",
+    tags: ["☕ cafe", "🌿 routine"],
   },
   {
-    title: "Dorm room grocery run",
-    category: "School",
+    title: "Apartment tour short",
+    category: "YouTube Ideas",
     body:
-      "Coffee filters, oats, bananas, printer paper, blue pens, sticky notes, and a new desk lamp bulb.",
-    source: "Quick list",
-    date: "Mar 3",
+      "A 30-second short showing the prettiest corners: lamp glow, jewelry dish, planner stack, flowers, and the window view at sunset.",
+    createdAt: "2026-04-12T19:30:00",
+    lastRevisitedAt: "2026-04-12T19:45:00",
+    tags: ["🎥 content idea", "🏡 home"],
   },
   {
-    title: "Weekend itinerary template",
-    category: "Travel",
+    title: "Question for future self",
+    category: "Random Thoughts",
     body:
-      "One anchor activity per day, two food options nearby, transit backup, and one no-plan wandering block.",
-    source: "Template",
-    date: "Mar 1",
+      "What would my life look like if I protected my attention as carefully as I protect my phone battery?",
+    createdAt: "2026-03-28T22:16:00",
+    lastRevisitedAt: "2026-03-29T09:00:00",
+    tags: ["🌙 late night", "🧠 idea"],
   },
 ];
 
@@ -117,13 +131,15 @@ const totalNotesHero = document.querySelector("#totalNotesHero");
 const voiceStatus = document.querySelector("#voiceStatus");
 const voiceFallback = document.querySelector("#voiceFallback");
 const dictationButton = document.querySelector("#dictationButton");
+const recentTimeline = document.querySelector("#recentTimeline");
+const resurfaceList = document.querySelector("#resurfaceList");
 
 let recognition;
 let isListening = false;
 let speechStartText = "";
 let finalTranscript = "";
 let currentAutoCategory = "Random Thoughts";
-const openCategories = new Set(["Random Thoughts"]);
+const openCategories = new Set(["YouTube Ideas", "Random Thoughts"]);
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -132,15 +148,16 @@ const categoryKeywords = {
     "youtube",
     "video",
     "vlog",
-    "shorts",
+    "short",
     "channel",
     "thumbnail",
     "script",
-    "filming",
+    "film",
     "edit",
     "hook",
     "content",
-    "episode",
+    "voiceover",
+    "reel",
   ],
   School: [
     "school",
@@ -155,8 +172,7 @@ const categoryKeywords = {
     "study",
     "thesis",
     "assignment",
-    "calculus",
-    "history",
+    "review",
   ],
   Travel: [
     "travel",
@@ -172,6 +188,7 @@ const categoryKeywords = {
     "tokyo",
     "lisbon",
     "kyoto",
+    "tram",
   ],
   Deadlines: [
     "deadline",
@@ -184,26 +201,56 @@ const categoryKeywords = {
     "schedule",
     "meeting",
     "friday",
+    "monday",
     "tomorrow",
     "11:59",
   ],
 };
 
+const tagRules = [
+  { tag: "✈️ travel", keywords: ["travel", "trip", "flight", "hotel", "passport", "tokyo", "lisbon", "kyoto"] },
+  { tag: "☕ cafe", keywords: ["cafe", "coffee", "latte", "morning"] },
+  { tag: "🌙 late night", keywords: ["night", "late", "moon", "sleep", "dream"] },
+  { tag: "🎥 content idea", keywords: ["youtube", "video", "vlog", "short", "film", "content", "reel"] },
+  { tag: "📚 study", keywords: ["study", "school", "exam", "class", "homework", "essay"] },
+  { tag: "⏰ deadline", keywords: ["deadline", "due", "submit", "finish", "monday", "friday"] },
+];
+
 function categoryClass(category) {
-  return `tag-${categories[category]}`;
+  return `tag-${categoryDetails[category].slug}`;
+}
+
+function formatDate(dateString, options = { month: "short", day: "numeric" }) {
+  return new Intl.DateTimeFormat("en", options).format(new Date(dateString));
+}
+
+function formatTime(dateString) {
+  return new Intl.DateTimeFormat("en", { hour: "numeric", minute: "2-digit" }).format(new Date(dateString));
+}
+
+function getDateGroup(dateString) {
+  const noteDate = new Date(dateString);
+  const today = new Date("2026-05-09T12:00:00");
+  const diffDays = Math.floor((today - noteDate) / 86400000);
+
+  if (diffDays <= 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  if (diffDays <= 7) return "This week";
+  if (diffDays <= 30) return "Earlier this month";
+  return "Older sparks";
 }
 
 function noteMatchesSearch(note, query) {
-  const searchable = `${note.title} ${note.category} ${note.body} ${note.source}`.toLowerCase();
+  const searchable = `${note.title} ${note.category} ${note.body} ${note.tags.join(" ")} ${formatDate(note.createdAt)}`.toLowerCase();
   return searchable.includes(query);
 }
 
-function renderNotes() {
+function renderDashboard() {
   const query = searchInput.value.trim().toLowerCase();
   const filteredNotes = notes.filter((note) => noteMatchesSearch(note, query));
 
   categoryList.replaceChildren(
-    ...Object.keys(categories).map((category) => {
+    ...categories.map((category) => {
       const categoryNotes = filteredNotes.filter((note) => note.category === category);
       return createCategoryPanel(category, categoryNotes, Boolean(query));
     }),
@@ -212,13 +259,15 @@ function renderNotes() {
   visibleCount.textContent = filteredNotes.length;
   totalNotesHero.textContent = notes.length;
   emptyState.hidden = filteredNotes.length > 0;
+  renderRecentTimeline();
+  renderResurfaceList();
 }
 
 function createCategoryPanel(category, categoryNotes, hasSearchQuery) {
   const panel = document.createElement("section");
   panel.className = "category-panel";
 
-  const panelId = `category-${categories[category]}`;
+  const panelId = `category-${categoryDetails[category].slug}`;
   const isOpen = openCategories.has(category) || (hasSearchQuery && categoryNotes.length > 0);
 
   const toggle = document.createElement("button");
@@ -230,20 +279,27 @@ function createCategoryPanel(category, categoryNotes, hasSearchQuery) {
   const summary = document.createElement("span");
   summary.className = "category-summary";
 
-  const tag = document.createElement("span");
-  tag.className = `tag ${categoryClass(category)}`;
-  tag.textContent = category;
+  const folder = document.createElement("span");
+  folder.className = "folder-icon";
+  folder.textContent = categoryDetails[category].icon;
+
+  const titleWrap = document.createElement("span");
+  titleWrap.className = "category-title-wrap";
+
+  const title = document.createElement("strong");
+  title.textContent = category;
 
   const count = document.createElement("span");
   count.className = "category-count";
-  count.textContent = `${categoryNotes.length} ${categoryNotes.length === 1 ? "note" : "notes"}`;
+  count.textContent = `${categoryNotes.length} ${categoryNotes.length === 1 ? "thought" : "thoughts"}`;
 
   const icon = document.createElement("span");
   icon.className = "category-icon";
   icon.setAttribute("aria-hidden", "true");
-  icon.textContent = isOpen ? "-" : "+";
+  icon.textContent = isOpen ? "−" : "+";
 
-  summary.append(tag, count);
+  titleWrap.append(title, count);
+  summary.append(folder, titleWrap);
   toggle.append(summary, icon);
 
   const body = document.createElement("div");
@@ -252,7 +308,8 @@ function createCategoryPanel(category, categoryNotes, hasSearchQuery) {
   body.hidden = !isOpen;
 
   if (categoryNotes.length) {
-    body.replaceChildren(...categoryNotes.map(createNoteCard));
+    const groups = groupNotesByDate(categoryNotes);
+    body.replaceChildren(...Object.entries(groups).map(([label, groupedNotes]) => createDateGroup(label, groupedNotes)));
   } else {
     const emptyCategory = document.createElement("p");
     emptyCategory.className = "empty-category";
@@ -266,20 +323,43 @@ function createCategoryPanel(category, categoryNotes, hasSearchQuery) {
     } else {
       openCategories.add(category);
     }
-    renderNotes();
+    renderDashboard();
   });
 
   panel.append(toggle, body);
   return panel;
 }
 
-function createNoteCard(note) {
-  const card = document.createElement("article");
-  card.className = "note-card";
+function groupNotesByDate(categoryNotes) {
+  return categoryNotes
+    .slice()
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .reduce((groups, note) => {
+      const label = getDateGroup(note.createdAt);
+      groups[label] = groups[label] || [];
+      groups[label].push(note);
+      return groups;
+    }, {});
+}
 
-  const tag = document.createElement("span");
-  tag.className = `tag ${categoryClass(note.category)}`;
-  tag.textContent = note.category;
+function createDateGroup(label, groupedNotes) {
+  const group = document.createElement("section");
+  group.className = "date-group";
+
+  const heading = document.createElement("h3");
+  heading.textContent = label;
+
+  const cards = document.createElement("div");
+  cards.className = "note-card-grid";
+  cards.replaceChildren(...groupedNotes.map(createNoteCard));
+
+  group.append(heading, cards);
+  return group;
+}
+
+function createNoteCard(note, compact = false) {
+  const card = document.createElement("article");
+  card.className = compact ? "note-card note-card-compact" : "note-card";
 
   const title = document.createElement("h3");
   title.textContent = note.title;
@@ -287,27 +367,70 @@ function createNoteCard(note) {
   const body = document.createElement("p");
   body.textContent = note.body;
 
+  const tags = document.createElement("div");
+  tags.className = "tag-row";
+  tags.replaceChildren(
+    ...note.tags.map((tag) => {
+      const tagElement = document.createElement("span");
+      tagElement.className = `tag ${categoryClass(note.category)}`;
+      tagElement.textContent = tag;
+      return tagElement;
+    }),
+  );
+
   const meta = document.createElement("div");
   meta.className = "note-meta";
 
-  const source = document.createElement("span");
-  source.textContent = note.source;
+  const category = document.createElement("span");
+  category.textContent = `${categoryDetails[note.category].icon} ${note.category}`;
 
   const date = document.createElement("span");
-  date.textContent = note.date;
+  date.textContent = `${formatDate(note.createdAt)} • ${formatTime(note.createdAt)}`;
 
-  meta.append(source, date);
-  card.append(tag, title, body, meta);
+  meta.append(category, date);
+  card.append(tags, title, body, meta);
 
   return card;
 }
 
-searchInput.addEventListener("input", renderNotes);
+function renderRecentTimeline() {
+  const recentNotes = notes
+    .slice()
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 5);
 
-clearFilters.addEventListener("click", () => {
-  searchInput.value = "";
-  renderNotes();
-});
+  recentTimeline.replaceChildren(
+    ...recentNotes.map((note) => {
+      const item = document.createElement("article");
+      item.className = "timeline-item";
+
+      const dot = document.createElement("span");
+      dot.className = `timeline-dot ${categoryClass(note.category)}`;
+      dot.textContent = categoryDetails[note.category].icon;
+
+      const content = document.createElement("div");
+
+      const title = document.createElement("h3");
+      title.textContent = note.title;
+
+      const meta = document.createElement("p");
+      meta.textContent = `${formatDate(note.createdAt, { weekday: "short", month: "short", day: "numeric" })} • ${note.tags[0]}`;
+
+      content.append(title, meta);
+      item.append(dot, content);
+      return item;
+    }),
+  );
+}
+
+function renderResurfaceList() {
+  const oldIdeas = notes
+    .slice()
+    .sort((a, b) => new Date(a.lastRevisitedAt) - new Date(b.lastRevisitedAt))
+    .slice(0, 3);
+
+  resurfaceList.replaceChildren(...oldIdeas.map((note) => createNoteCard(note, true)));
+}
 
 function suggestCategory(content) {
   const normalizedContent = content.toLowerCase();
@@ -328,8 +451,8 @@ function suggestCategory(content) {
 
 function showAutoCategory(category) {
   const categoryName = document.createElement("strong");
-  categoryName.textContent = category;
-  autoCategory.replaceChildren("Auto category: ", categoryName);
+  categoryName.textContent = `${categoryDetails[category].icon} ${category}`;
+  autoCategory.replaceChildren("Auto-sorted to ", categoryName);
 }
 
 function updateAutoCategory() {
@@ -341,8 +464,23 @@ function createTitleFromThought(thought) {
   const normalizedThought = thought.replace(/\s+/g, " ").trim();
   if (!normalizedThought) return "Untitled thought";
 
-  const words = normalizedThought.split(" ").slice(0, 7).join(" ");
-  return normalizedThought.length > words.length ? `${words}...` : words;
+  const sentence = normalizedThought.split(/[.!?]/)[0].trim();
+  const source = sentence || normalizedThought;
+  const words = source.split(" ").slice(0, 6).join(" ");
+  return source.length > words.length ? `${words}...` : words;
+}
+
+function createTagsFromThought(thought, category) {
+  const normalizedThought = thought.toLowerCase();
+  const matchedTags = tagRules
+    .filter(({ keywords }) => keywords.some((keyword) => normalizedThought.includes(keyword)))
+    .map(({ tag }) => tag);
+
+  if (!matchedTags.length) {
+    return [`${categoryDetails[category].icon} ${category.toLowerCase()}`];
+  }
+
+  return [...new Set(matchedTags)].slice(0, 3);
 }
 
 function appendTranscript(interimTranscript = "") {
@@ -420,20 +558,31 @@ dictationButton.addEventListener("click", () => {
   }
 });
 
+searchInput.addEventListener("input", renderDashboard);
+
+clearFilters.addEventListener("click", () => {
+  searchInput.value = "";
+  renderDashboard();
+});
+
 noteBody.addEventListener("input", updateAutoCategory);
 
 noteForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const formData = new FormData(noteForm);
   const thought = formData.get("body").trim();
+  if (!thought) return;
+
   const savedCategory = currentAutoCategory;
+  const now = new Date();
 
   notes.unshift({
     title: createTitleFromThought(thought),
     category: savedCategory,
     body: thought,
-    source: "New note",
-    date: "Just now",
+    createdAt: now.toISOString(),
+    lastRevisitedAt: now.toISOString(),
+    tags: createTagsFromThought(thought, savedCategory),
   });
 
   noteForm.reset();
@@ -441,9 +590,9 @@ noteForm.addEventListener("submit", (event) => {
   setDictationState(false, "Tap to dictate");
   openCategories.add(savedCategory);
   searchInput.value = "";
-  renderNotes();
+  renderDashboard();
 });
 
 setupSpeechRecognition();
 updateAutoCategory();
-renderNotes();
+renderDashboard();
